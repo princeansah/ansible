@@ -1,0 +1,11 @@
+# setup-app.yml
+
+
+---
+  - hosts: webservers
+    become: true
+    roles:
+      - webservers
+
+
+# to use predefined roles visit galaxy.ansible.com

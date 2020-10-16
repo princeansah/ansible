@@ -1,0 +1,27 @@
+---
+# tasks file for roles/webservers
+- name: Upload application file 
+  copy:
+    src: ../files/index.php
+    dest: "{{ path_to_app }}"
+    mode:  0755
+
+- name: creare simple info page
+  copy:
+    dest: "{{ path_to_app }}/info.php"
+    content: "<h1> Info about our webserver {{ ansible_hostname }} </h1>"
+
+- name: See directory contents
+  command: ls -la {{ path_to_app }}  # I do not include the double quotes because i am using the free form texts
+  register: dir_contents      # the register module stores all the contents after listing the contents in the var.path_to_app directory and registers it to the variable dir_contents
+
+- name: Debug directory contents
+  debug:                         # the debug module lets us see or print the content of the previous variable we just created
+    msg: "{{ dir_contents }}"   # it should now print out the contents in the dir_contents
+
+- name: configure php.ini file
+  lineinfile:
+    path: /etc/php.ini
+    regexp: ^short_open_tag
+    line: 'short_open_tag=On'
+  notify: restart apache
