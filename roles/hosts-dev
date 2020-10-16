@@ -1,0 +1,23 @@
+# hosts-dev
+# inventory file
+
+[webservers]
+app1 ansible_host=52.21.154.218  # set an alias to app 1
+app2 ansible_host=54.144.126.35
+
+[loadbalancers]
+lb1 ansible_host=34.225.175.99 # set alias to lb1
+
+[local]
+control ansible_connection=local
+
+
+
+# ansible --list-hosts all. it lists all hosts in your inventory file
+# ansible --list-hosts "*"   it lists all hosts in your inventory file
+# ansible --list-hosts \!control  it lists all hosts except your local hosts
+# ansible --list-hosts webservers:loadbalancers  lists all webservers and loadbalancers
+# ansible --list-hosts app*   lists all hosts with alias begining with app
+# ansible --list-hosts webserver [0]   list the first host in the webserver.
+# ansible -m setup app1    it provides the information ansible gathering facts step use. We can use this information to create new variables.
+# ansible-galaxy webservers init    this creates a role
