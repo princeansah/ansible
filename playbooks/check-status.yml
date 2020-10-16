@@ -1,0 +1,15 @@
+# check-status.yml
+---
+  - hosts: webservers:loadbalancers
+    become: true
+    tasks: 
+      - name: Check status of apache   
+        command: service httpd status  # only checks the status if apache is running on our webservers and loadbalancers and makes no chnages.
+        args:
+          warn: no    # this prevents any forms of warning from appearing in the console that ansible suggests
+        changed_when: false   # this prevents ansible for reporting a changed status. we set this because this task only checks apache status and does not make any chnages so we do not need ansible to report any change statuses.
+
+
+      - name: This is not a fail
+        command: /bin/false
+        ignore_errors: yes   # we use this parameter to ignore fails for ansible to keep running the other tasks without reporting a failed task.

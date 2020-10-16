@@ -1,0 +1,30 @@
+# hosts-dev
+# inventory file
+
+[webservers]
+app1 ansible_host=52.21.154.218  # set an alias to app 1
+app2 ansible_host=54.144.126.35
+
+[loadbalancers]
+lb1 ansible_host=34.225.175.99 # set alias to lb1
+
+[local]
+control ansible_connection=local
+
+
+
+# ansible --list-hosts all. it lists all hosts in your inventory file
+# ansible --list-hosts "*"   it lists all hosts in your inventory file
+# ansible --list-hosts \!control  it lists all hosts except your local hosts
+# ansible --list-hosts webservers:loadbalancers  lists all webservers and loadbalancers
+# ansible --list-hosts app*   lists all hosts with alias begining with app
+# ansible --list-hosts webserver [0]   list the first host in the webserver.
+# ansible -m setup app1    it provides the information ansible gathering facts step use. We can use this information to create new variables.
+# ansible-galaxy webservers init    this creates a role
+# ansible-playbook playbooks/setup-app.yml --check   this verifies the changes youre making without making the changes. 
+# ansible-playbook playbooks/setup-app.yml   this finally installs the changes youre making to the set playbook which is the set-up-app.yml
+# ansible-playbook playbooks/setup-app.yml --tags upload   this runs only the task with the tag upload within the set-up.yml playbook
+# ansible-playbook playbooks/setup-app.yml --skip-tags upload    this runs all tasks within the set-up.yml and skips the task with tag upload
+# ansible-vault create vars/secret-variables.yml   this creates a vault called secret-variables.yml within a folder vars. This stores any sensitive data like passwords
+# ansible-vault edit vars/secret-variables.yml     this lets us edit the content of this file
+# ansible-playbook playbooks/setup-app.yml --ask-vault-pass  this lets you provide a password for the vault if the playbook needs to access the content of your vault
